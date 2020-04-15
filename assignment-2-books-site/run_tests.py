@@ -38,7 +38,7 @@ class MyRunner(DiscoverRunner):
                   raise
 
 if __name__ == "__main__":
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'portfolio_site.settings'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'books_site.settings'
     django.setup()
     test_runner = MyRunner()
     test_runner.run_tests(["tests"])

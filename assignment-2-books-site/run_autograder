@@ -2,7 +2,24 @@
 
 # Set up autograder files
 
-cp -R /autograder/submission/* /autograder/source/
+# Find submission files no matter how many nested directories they're in
+x=$(ls /autograder/submission/)
+
+if [[ $(ls /autograder/submission/) = *'manage.py'* ]]
+then
+  echo "first level: $x"
+  cp -R /autograder/submission/* /autograder/source/
+elif [[ $(ls /autograder/submission/*) = *'manage.py'* ]]
+then
+  echo "second level: $x"
+  cp -R /autograder/submission/*/* /autograder/source/
+elif [[ $(ls /autograder/submission/*/*) = *'manage.py'* ]]
+then
+  echo "third level: $x"
+  cp -R /autograder/submission/*/*/* /autograder/source/
+else
+  echo "could not find files: $x"
+fi
 
 cd /autograder/source
 

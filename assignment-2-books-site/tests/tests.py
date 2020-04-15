@@ -43,13 +43,35 @@ class ViewTests(TestCase):
         self.assertContains(response, 'Little Women')
         self.assertContains(response, 'book/1')
     
-    @weight(10)
+    @weight(4)
     def test_detail(self):
         a1 = Author.objects.create(name='Louisa May Alcott', birth_date='1832-11-29')
         b1 = Book.objects.create(title='Little Women', num_pages=759, date_published='1868-09-30', author=a1)
         response = self.client.get('/book/1/')
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '1868')
         self.assertContains(response, 'Little Women')
         self.assertContains(response, '759')
         self.assertContains(response, 'Louisa May Alcott')
+
+    @weight(3)
+    def test_detail_contains_authors_birth_date(self):
+        a1 = Author.objects.create(name='Louisa May Alcott', birth_date='1832-11-29')
+        b1 = Book.objects.create(title='Little Women', num_pages=759, date_published='1868-09-30', author=a1)
+        response = self.client.get('/book/1/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '1832')
+
+    @weight(3)
+    def test_detail_contains_tags(self):
+        a1 = Author.objects.create(name='Louisa May Alcott', birth_date='1832-11-29')
+        b1 = Book.objects.create(title='Little Women', num_pages=759, date_published='1868-09-30', author=a1)
+        b1.tags.add(Tag.objects.create(name='Fiction'))
+        b1.tags.add(Tag.objects.create(name='Novel'))
+        b1.save()
+        response = self.client.get('/book/1/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Fiction')
+        self.assertContains(response, 'Novel')
+
 
