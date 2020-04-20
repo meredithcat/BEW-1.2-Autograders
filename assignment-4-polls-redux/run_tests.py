@@ -38,8 +38,7 @@ class MyRunner(DiscoverRunner):
                   raise
 
 if __name__ == "__main__":
-    module_name = sys.argv[1].split('/')[-2]
-    os.environ['DJANGO_SETTINGS_MODULE'] = f'{module_name}.settings'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.test_settings'
     django.setup()
     test_runner = MyRunner()
     test_runner.run_tests(["tests"])

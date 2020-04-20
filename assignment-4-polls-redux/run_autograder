@@ -5,7 +5,6 @@
 # Find submission files no matter how many nested directories they're in
 x=$(ls /autograder/submission/)
 
-
 if [[ $(ls /autograder/submission/) = *'manage.py'* ]]
 then
   echo "first level: $x"
@@ -22,10 +21,6 @@ else
   echo "could not find files: $x"
 fi
 
-
-filepath=$(find /autograder/submission -name "settings.py")
-echo $filepath
-
 cd /autograder/source
 
-python3 run_tests.py $filepath > /autograder/results/results.json
+python3 run_tests.py > /autograder/results/results.json
